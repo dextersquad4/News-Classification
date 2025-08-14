@@ -181,8 +181,9 @@ p {
     position: relative;
 }
 
+
 .back-button {
-    position: absolute;
+    position: fixed;
     top: 1rem;
     left: 2rem;
     display: flex;
