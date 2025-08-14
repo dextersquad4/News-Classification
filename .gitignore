@@ -1,2 +1,3 @@
 backend/cert.pem
 backend/key.pem
+.env
