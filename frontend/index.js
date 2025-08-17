@@ -31,7 +31,7 @@ const displayRecentNews = () => {
 
 
             title.innerHTML = news.title;
-            desc.innerHTML = news.desc;
+            desc.innerHTML = news.description;
             recentNewsContainer.appendChild(container);
         })
     })
@@ -98,7 +98,7 @@ const createOpinionatedDisplay = (newsSources, newsSourceContainer) => {
 
 
         title.innerHTML = newsSource.title;
-        desc.innerHTML = newsSource.desc;
+        desc.innerHTML = newsSource.description;
         opScore.innerHTML = "Opinionated Metric: " + newsSource.score
         newsSourceContainer.appendChild(container);
     })

@@ -1,10 +1,14 @@
 const https = await import('node:https');
 const fs = await import('node:fs');
+const cron = await imort('node-cron');
+const { spawn } = require('child_process');
+
 import { callEndpoints } from './routing.js';
 
 
 const port = "3000";
 const host = "0.0.0.0";
+const cronExpression = '32 13 * * *';
 
 const options = {
     key: fs.readFileSync('key.pem'),
@@ -34,4 +38,11 @@ const server = https.createServer(options, (req, res) => {
 server.listen(port, host, () => {
     const {address, port} = server.address();
     console.log(`We are running on https://${address}:${port}`);
+})
+
+cron.schedule(cronExpression, () => {
+    const pythonProcess = spawn('python', ["schedule.py"])
+    pythonProcess.on('close', (code) => {
+        console.log(`Scheduler ended on ${code}`);
+    })
 })

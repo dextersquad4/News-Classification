@@ -1,11 +1,49 @@
+const { spawn } = require('child_process');
+
+const startPythonProcess = (fileName) => {
+    return new Promise((resolve, reject) => {
+        const pythonProcess = spawn('python', [fileName])
+        pythonProcess.stdout.on('data', (data) => {
+            pythonData += data.toString();
+        })
+        pythonProcess.on('close', (code) => {
+            console.log(`Python process ended on code: ${code}`);
+            if (pythonData.Status == 200) {
+                resolve(pythonData);
+            } else {
+                reject(new Error(`Python script exited with code ${pythonData.Status}`));
+            }
+        })
+    })
+}
+
 export const getRecentNews = async () => {
-    return {'Status': 200, "Message": "Reached get recent news endpoint", "news": [{"title": "Humungous", "desc":"This is the largest waste of my time"}, {"title":"Small", "desc":"This will not help me get a job"}]};
+    try {
+        const newsData = await startPythonProcess("../python-endpoints/getRecentNews.py");
+        return newsData
+    } catch (e) {
+        console.error("Error bleh getRecentNews " + e);
+        throw e;
+    }
+
 }
 
 export const getMostOpinionated = async() => {
-    return {'Status': 200, "Message": "Reached get most opinionated", "sources": [{"title": "Humungous", "desc":"This is the largest waste of my time", "score":1.5}, {"title":"Small", "desc":"This will not help me get a job","score":2.5}]};
+    try {
+        const newsData = await startPythonProcess("../python-endpoints/getMostOpinionated.py");
+        return newsData
+    } catch (e) {
+        console.error("Error bleh getmostOpinionated " + e);
+        throw e;
+    }
 }
 
 export const getLeastOpinionated = async() => {
-    return {'Status': 200, "Message": "Reached get least opinionated", "sources": [{"title": "Humungous", "desc":"This is the largest waste of my time", "score":4.5}, {"title":"Small", "desc":"This will not help me get a job","score":5.5}]};
+    try {
+        const newsData = await startPythonProcess("../python-endpoints/getLeastOpinionated.py");
+        return newsData
+    } catch (e) {
+        console.error("Error bleh getLeastOpinionated " + e);
+        throw e;
+    }
 }
