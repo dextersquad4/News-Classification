@@ -1,9 +1,13 @@
 import sqlite3
 import json
 
+
+db_file = "../python-endpoints/articles.db"
+
+
 if __name__ == "__main__":
     try:
-        conn = sqlite3.connect()
+        conn = sqlite3.connect(db_file)
         cursor = conn.cursor()
         cursor.execute('''
         SELECT source, AVG(rating) as avg_rating
@@ -21,8 +25,9 @@ if __name__ == "__main__":
             print(json.dumps({"Status": 200, "Message": "Got top sources", "sources": topSourceObjects}))
         else:
             raise Exception("Bleh belh no sources found")
+        conn.close()
     except Exception as e:
-        print("Error bluhblublu")
-
+        print(json.dumps({"Status": 500, "Message": str(e), "sources": []}))
+        conn.close()
 
 

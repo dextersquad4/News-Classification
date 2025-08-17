@@ -3,6 +3,12 @@ import requests
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import bs4 as BeautifulSoup
 import torch
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+THE_NEWS_APIKEY = os.getenv("THE_NEWS_APIKEY")
 
 db_file = "articles.db"
 
@@ -36,16 +42,16 @@ if __name__ == "__main__":
                    url TEXT,
                    content TEXT,
                    rating float,
-                   recent BOOLEAN,
+                   recent BOOLEAN
                    );''')
     
     cursor.execute('''UPDATE articles 
                     SET recent = FALSE
                     WHERE recent = TRUE;''')
     conn.commit()
-    output_dir = "../fine-tuning/opinionation_model/checkpoint-147/"
-    model = AutoModelForSequenceClassification.from_pretrained(output_dir)
+    output_dir = "opinionation_model/checkpoint-147/"
     tokenizer = AutoTokenizer.from_pretrained(output_dir)
+    model = AutoModelForSequenceClassification.from_pretrained(output_dir)
 
 
 
@@ -76,10 +82,9 @@ if __name__ == "__main__":
                 rating = -1
                 try: 
                     print(f"Generating rating for article {title}")
-                    if (content != "Could not scrape content."):
-                        rating = classify_opinionation(title+description+content)
+                    rating = classify_opinionation(title+description+content)
                 except Exception as e:
-                    print(f"OpenAI API ran into exception {e}")
+                    print(f"Ran into model excpetion")
 
 
                 cursor.execute("SELECT url from articles where url = ?", (url,))

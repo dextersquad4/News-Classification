@@ -1,14 +1,14 @@
 const https = await import('node:https');
 const fs = await import('node:fs');
-const cron = await imort('node-cron');
-const { spawn } = require('child_process');
+const cron = await import('node-cron');
+const { spawn } = await import('child_process');
 
 import { callEndpoints } from './routing.js';
 
 
 const port = "3000";
 const host = "0.0.0.0";
-const cronExpression = '32 13 * * *';
+const cronExpression = '2 16 * * *';
 
 const options = {
     key: fs.readFileSync('key.pem'),

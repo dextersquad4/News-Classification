@@ -1,18 +1,31 @@
-const { spawn } = require('child_process');
+const { spawn } = await import('child_process');
 
 const startPythonProcess = (fileName) => {
     return new Promise((resolve, reject) => {
         const pythonProcess = spawn('python', [fileName])
+        let pythonData = '';
+        let pythonErrors = '';
+
         pythonProcess.stdout.on('data', (data) => {
             pythonData += data.toString();
         })
+
+        pythonProcess.stderr.on('data', (data) => {
+            pythonErrors+=data.toString();
+        })
         pythonProcess.on('close', (code) => {
             console.log(`Python process ended on code: ${code}`);
+            console.log("python data", pythonData);
+            pythonData = JSON.parse(pythonData);
             if (pythonData.Status == 200) {
                 resolve(pythonData);
             } else {
-                reject(new Error(`Python script exited with code ${pythonData.Status}`));
+                reject(new Error(`Python script exited with code ${pythonData.Status}, ${pythonErrors}`));
             }
+        })
+
+        pythonProcess.on('error', (error) => {
+            reject(new Error(error));
         })
     })
 }

@@ -22,6 +22,9 @@ const displayRecentNews = () => {
         const recentNewsContainer = document.getElementById("newNewsArticles");
         response.forEach((news) => {
             const container = document.createElement("div");
+            container.addEventListener('click', () => {
+                window.location.href = news.url;
+            });
             const title = document.createElement("h4");
             const desc = document.createElement("p");
             
@@ -87,19 +90,19 @@ const displayOpinionatedSources = (opinionated) => {
 const createOpinionatedDisplay = (newsSources, newsSourceContainer) => {
     newsSources.forEach((newsSource) => {
         const container = document.createElement("div");
+        container.addEventListener('click', ()=> {
+            window.location.href = "https://" + newsSource.title;
+        });
         const title = document.createElement("h4");
-        const desc = document.createElement("p");
         const opScore = document.createElement("p");
         
         newsSourceContainer.appendChild(container);
         container.appendChild(title);
-        container.appendChild(desc);
         container.appendChild(opScore);
 
 
         title.innerHTML = newsSource.title;
-        desc.innerHTML = newsSource.description;
-        opScore.innerHTML = "Opinionated Metric: " + newsSource.score
+        opScore.innerHTML = "Opinionated Metric: " + newsSource.rating
         newsSourceContainer.appendChild(container);
     })
 }

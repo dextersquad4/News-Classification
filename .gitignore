@@ -3,4 +3,4 @@ backend/key.pem
 .env
 scraper-to-train/__pycache__/
 fine-tuning/__pycache__/
-fine-tuning/opinionation_model/
+python-endpoints/opinionation_model/
