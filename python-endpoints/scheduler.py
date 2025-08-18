@@ -1,7 +1,7 @@
 import sqlite3
 import requests
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
-import bs4 as BeautifulSoup
+from bs4 import BeautifulSoup
 import torch
 from dotenv import load_dotenv
 import os
@@ -10,7 +10,7 @@ load_dotenv()
 
 THE_NEWS_APIKEY = os.getenv("THE_NEWS_APIKEY")
 
-db_file = "articles.db"
+db_file = "../python-endpoints/articles.db"
 
 
 def get_website_content(url):
@@ -49,7 +49,7 @@ if __name__ == "__main__":
                     SET recent = FALSE
                     WHERE recent = TRUE;''')
     conn.commit()
-    output_dir = "opinionation_model/checkpoint-147/"
+    output_dir = "../python-endpoints/opinionation_model/checkpoint-147/"
     tokenizer = AutoTokenizer.from_pretrained(output_dir)
     model = AutoModelForSequenceClassification.from_pretrained(output_dir)
 
@@ -83,14 +83,16 @@ if __name__ == "__main__":
                 try: 
                     print(f"Generating rating for article {title}")
                     rating = classify_opinionation(title+description+content)
+                    print("This is the rating " + str(rating))
                 except Exception as e:
-                    print(f"Ran into model excpetion")
+                    print(f"Ran into model excpetion {e}")
 
 
                 cursor.execute("SELECT url from articles where url = ?", (url,))
                 exists_row = cursor.fetchone()
 
-                if not exists_row:
+
+                if not exists_row and rating != -1:
                     #Add each article to the db if the url is unique
                     cursor.execute('''INSERT INTO articles (title, description, source, url, content, rating, recent)
                                 VALUES (?, ?, ?, ?, ?, ?, ?);''', (title, description, source, url, content, rating, True))
@@ -100,7 +102,7 @@ if __name__ == "__main__":
             print(f"error dumbass: {e}")
             break
             
-    conn.close()
+    # conn.close()
     
 
     

@@ -27,14 +27,17 @@ const displayRecentNews = () => {
             });
             const title = document.createElement("h4");
             const desc = document.createElement("p");
+            const rating = document.createElement("div")
             
             recentNewsContainer.appendChild(container);
             container.appendChild(title);
             container.appendChild(desc);
+            container.appendChild(rating);
 
 
             title.innerHTML = news.title;
             desc.innerHTML = news.description;
+            rating.innerHTML = "Article rating: " + (news.rating).toFixed(2) ;
             recentNewsContainer.appendChild(container);
         })
     })
@@ -102,7 +105,7 @@ const createOpinionatedDisplay = (newsSources, newsSourceContainer) => {
 
 
         title.innerHTML = newsSource.title;
-        opScore.innerHTML = "Opinionated Metric: " + newsSource.rating
+        opScore.innerHTML = "Opinionated Metric: " + newsSource.rating.toFixed(2);
         newsSourceContainer.appendChild(container);
     })
 }

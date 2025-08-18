@@ -8,7 +8,7 @@ import { callEndpoints } from './routing.js';
 
 const port = "3000";
 const host = "0.0.0.0";
-const cronExpression = '2 16 * * *';
+const cronExpression = '44 22 * * *';
 
 const options = {
     key: fs.readFileSync('key.pem'),
@@ -41,8 +41,12 @@ server.listen(port, host, () => {
 })
 
 cron.schedule(cronExpression, () => {
-    const pythonProcess = spawn('python', ["schedule.py"])
+    const pythonProcess = spawn('python', ["../python-endpoints/scheduler.py"])
+    let pythonData = '';
+    pythonProcess.stderr.on('data', (data) => {
+        pythonData +=data;
+    })
     pythonProcess.on('close', (code) => {
-        console.log(`Scheduler ended on ${code}`);
+        console.log(`Scheduler ended on ${code} with data ${pythonData}`);
     })
 })

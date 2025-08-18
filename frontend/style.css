@@ -54,8 +54,42 @@ h2 {
     padding-bottom: 0.5rem;
 }
 
+#newNewsArticles {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+#newNewsArticles > div {
+    flex: 0 0 300px; /* Fixed width for each article */
+    scroll-snap-align: start;
+}
+
+/* Custom scrollbar styling */
+#newNewsArticles::-webkit-scrollbar {
+    height: 8px;
+}
+
+#newNewsArticles::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+#newNewsArticles::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+#newNewsArticles::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
 /* News Articles Container */
-#newNewsArticles,
 #topNewsCorperations,
 #bottomNewsCorperations {
     display: grid;
@@ -96,7 +130,16 @@ p {
     margin-bottom: 0.5rem;
 }
 
-/* Opinion Score Styles */
+/* Article Rating Styles */
+#newNewsArticles > div > div:last-child {
+    margin-top: 0.8rem;
+    font-size: 0.9rem;
+    color: #6b7280;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 0.8rem;
+}
+
+/* Opinion Score Styles for Sources */
 #topNewsCorperations > div > p:last-child,
 #bottomNewsCorperations > div > p:last-child {
     margin-top: 1rem;
@@ -106,6 +149,7 @@ p {
     font-weight: 500;
     color: #2c3e50;
     display: inline-block;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 /* Custom colors for different sections */

@@ -6,3 +6,4 @@ fine-tuning/__pycache__/
 python-endpoints/opinionation_model/
 backend/node_modules
 python-endpoints/articles.db
+python-endpoints/__pycache__
