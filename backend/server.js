@@ -8,7 +8,7 @@ import { callEndpoints } from './routing.js';
 
 const port = "3000";
 const host = "0.0.0.0";
-const cronExpression = '44 22 * * *';
+const cronExpression = '0 0 * * *';
 
 const options = {
     key: fs.readFileSync('key.pem'),
